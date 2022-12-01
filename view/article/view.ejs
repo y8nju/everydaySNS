@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HOME | #일상</title>
+	<link rel="icon" type="image/svg" href="/images/favicon.svg"/>
+	<link rel="stylesheet" href="/css/common/normalize.css">
+	<link rel="stylesheet" href="/css/common/default.css">
+	<link rel="stylesheet" href="/css/article/article.css">
+	<link rel="stylesheet" href="/css/common/header.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+	<%- include("../common/header.ejs") %> 
+	<main>
+		<div id="view">
+			<div>
+				<article class="postcontainer card col">
+					<div class="writerInfo row">
+						<img src="<%= found.writerImage %>" alt="<%= found.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+						<div>
+							<p class="writerId">
+								<span>@<%= found.writerId %></span>
+								<% if(found.type == 'private') {%> 
+									<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
+								<% } %> 
+							</p>
+							<p class="createAt"><span><%= found.createAt.toLocaleString() %></span></p>
+						</div>
+						<% if(found.writerId == user.id) {%> 
+							<div class="more">
+								<button type="button" onclick="moreContent(this)" class="moreBtn"><i class="fi fi-rr-menu-dots"></i></button>
+								<div class="moreContent col">
+									<div><button onclick="location.href='/article/modify?articleId=<%= found._id.toString()%>'" class="postModify"><i class="fi fi-rr-edit"></i>수정하기</button></div>
+									<div><button href="" class="postDelete" onclick="isModal('flex')"><i class="fi fi-rr-trash"></i>삭제하기</button></div>
+								</div>
+							</div>
+						<% } %> 
+					</div>
+					<div class="content">
+						<div class="message"><%= found.post %></div>
+						<%if(found.attachs[0]) { %>
+							<div class="imageContainer">
+								<div style="padding-bottom: 200px;"></div>
+								<div class="imageWrap row">
+									<% found.attachs.forEach(elm => { %> 
+										<div class="img" style="background-image: url('<%= elm %>');">
+										<img src="<%= elm %>" alt=""></div>
+									<% }) %> 
+								</div>
+							</div>
+						<%}%>
+					</div>
+					<div class="commentWrap">
+						<div class="responseArea">
+							<div>
+								<span>댓글</span> <span class="cnt"><%= found.comments.length %></span>
+							</div>
+						</div>
+						<div class="commentWriteArea row">
+							<div>
+								<img src="<%=user.image %>" alt="user profile image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+							</div>
+							<div class="grow1">
+									<textarea name="commentWrite" class="commentWrite" placeholder="댓글을 입력하세요"></textarea>
+							</div>
+							<div>
+								<button data-targetid="<%= found._id.toString() %>" onclick="sendAddReq(event);">send</button>
+							</div>
+						</div>
+						<div class="commentsList">
+							<% found.comments.forEach(elm => { %> 
+								<div class="row comment">
+									<div>
+										<img src="<%= elm.commneterImage %> " alt="<%= elm.commenterId %> image" class="userProfileImg">
+									</div>
+									<div class="grow1 messageArea">
+										<div>
+											<span class="commenterId"><%= elm.commenterId %></span>
+											<span class="createAt"><%= elm.createdAt.toLocaleString() %> </span>
+										</div>
+										<div class="commnetMessage"><%= elm.commnetMessage %></div>
+									</div>
+								</div>
+							<% }) %> 
+						</div>
+					</div>
+				</article>
+			</div>
+		</div>
+		<div id="modal">
+			<article class="modalContent card">
+				<div class="modalTitle">
+					<h3>게시물 삭제</h3>
+				</div>
+				<div class="modalBody">
+					<p>게시물을 정말 삭제하시겠습니까?</p>
+				</div>
+				<div class="modalFooter row">
+					<button type="button" class="btn closeBtn" onclick="isModal('none')">취소</button>
+					<button type="button" class="btn confirmBtn" onclick="location.href='/article/delete?articleId=<%= found._id.toString()%>'">삭제</button>
+				</div>
+			</article>
+		</div>
+	</main>
+	<script>
+		userInfoLink();
+		function userInfoLink() {
+			let userInfoLink = document.querySelector('.headerRight');
+			let html = `
+				<div class="userInfoLink row" onclick="location.href='/user'">
+					<div>
+						<p class="userId">@<%= user.id %></p>
+					</div>
+					<img src="<%=user.image %>" alt="user profile image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+					</div>`
+			userInfoLink.innerHTML = html;
+		}
+		function moreContent(target) {
+			let moreContent = document.querySelector('.moreContent');
+			moreContent.classList.toggle('active');
+		}
+		function isModal(e) {
+			document.querySelector('#modal').style.display = e;
+		}
+	</script>
+	<script src="/js/article/view.js"></script>
+</body>
+</html>

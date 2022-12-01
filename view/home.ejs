@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HOME | #일상</title>
+	<link rel="icon" type="image/svg" href="/images/favicon.svg"/>
+	<link rel="stylesheet" href="/css/common/normalize.css">
+	<link rel="stylesheet" href="/css/common/default.css">
+	<link rel="stylesheet" href="/css/article/article.css">
+	<link rel="stylesheet" href="/css/common/header.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+	<%- include("./common/header.ejs") %> 
+	<main>
+		<div id="home">
+			<section class="postWriteSection card row">
+				<div class="userInfo">
+					<img src="<%=user.image %>" alt="user profile image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+				</div>
+				<form action="/article/upload" method="post" enctype="multipart/form-data" class="col writeForm">
+					<textarea name="message" placeholder="오늘 하루는 어떠셨나요?"></textarea>
+					<div class="previewWrap">
+					</div>
+					<div class="btnWrap row">
+						<label style="margin-right: auto;">
+							<input type="checkbox" name="type" value="private" class="privatChk"><span>비공개</span>
+						</label>
+						<label for="attaches">
+							<span class="btn" type="button"><i class="fi fi-rr-picture"></i></span>
+							<input type="file" name="attaches" id="attaches" accept="image/*" onchange="preview(event)" multiple>
+						</label>
+						<button class="btn"><i class="fi fi-rr-interface"></i> 전송</button>
+					</div>
+				</form>
+			</section>
+			<section class="postListSection">
+				<% postList.forEach(data => {%> 
+					<article class="postcontainer card col" onclick="location.href='/article/view?articleId=<%= data._id.toString() %>'">
+						<div class="writerInfo row">
+							<img src="<%= data.writerImage %>" alt="<%= data.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+							<div>
+								<p class="writerId">
+									<span>@<%= data.writerId %></span>
+									<% if(data.type == 'private') {%> 
+										<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
+									<% } %> 
+								</p>
+								<p class="createAt"><span><%= data.createAt.toLocaleString() %></span></p>
+							</div>
+						</div>
+						<div class="content">
+							<div class="message"><%= data.post %></div>
+							<%if(data.attachs[0]) { %>
+								<div class="imageContainer">
+									<div style="padding-bottom: 200px;"></div>
+									<div class="imageWrap row">
+										<% data.attachs.forEach(elm => { %> 
+											<div class="img" style="background-image: url('<%= elm %>');">
+											<img src="<%= elm %>" alt=""></div>
+										<% }) %> 
+									</div>
+								</div>
+							<%}%>
+						</div>
+						<div class="commentWrap">
+							<div class="responseArea">
+								<div>
+									<span>댓글</span> <span><%= data.comments.length %></span>
+								</div>
+							</div>
+						</div>
+					</article>
+				<% }) %>
+			</section>
+		</div>
+	</main>
+	<script>
+		userInfoLink();
+		function userInfoLink() {
+			let userInfoLink = document.querySelector('.headerRight');
+			let html = `
+				<div class="userInfoLink row" onclick="location.href='/user'">
+					<div>
+						<p class="userId">@<%= user.id %></p>
+					</div>
+					<img src="<%=user.image %>" alt="user profile image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+					</div>`
+			userInfoLink.innerHTML = html;
+		}
+	</script>
+	<script src="/js/article/home.js"></script>
+</body>
+</html

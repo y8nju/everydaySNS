@@ -1,0 +1,73 @@
+header {
+	width: 100vw;
+	height: var(--headerHeight);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: fixed;
+	top: 0; 
+	left: 0;
+	font-family: 'EarlyFontDiary';
+	text-align: center;
+	background-color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+	padding: 0 2rem;
+	z-index: 100;
+}
+
+/* headerCenter */
+.headerCenter {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.logo {
+	font-size: 1.6rem;
+}
+.logo > i {
+	font-size: 1.6rem;
+	font-style: normal;
+	color: var(--ongolingColor);
+}
+
+/* headerRight */
+.headerRight {
+	font-family: Pretendard;
+	font-size: .9rem;
+	cursor: pointer;
+}
+.userInfoLink {
+	align-items: flex-end;
+	border-radius: 3.3rem;
+	padding: 0.4rem 1rem;
+	transition: all .3s;
+}
+.userInfoLink:hover, .userInfoLink:active {
+	background-color: #eee;
+}
+.userInfoLink .userId {
+	font-weight: 600;
+	color: var(--gray777);
+	margin-bottom: 0.4rem;
+}
+.userInfoLink .userProfileImg {
+	width: 3rem;
+	height: 3rem;
+	margin-right: 0;
+	margin-left: .4rem;
+}
+.loginoutLink {
+	display: inline-block;
+	border-radius: 1rem;
+	padding: .4rem .8rem .4rem 1rem ;
+	transition: all .3s;
+}
+.loginoutLink button {
+	border: none;
+	color: var(--gray777);
+	background-color: transparent;
+	padding: 0;
+}
+.loginoutLink:hover, .loginoutLink:active {
+	background-color: #eee;
+}

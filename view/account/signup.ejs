@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입 | #일상</title>
+	<link rel="icon" type="image/svg" href="/images/favicon.svg"/>
+	<link rel="stylesheet" href="/css/common/normalize.css">
+	<link rel="stylesheet" href="/css/common/default.css">
+	<link rel="stylesheet" href="/css/account/account.css">
+	<link rel="stylesheet" href="/css/common/header.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+	<%- include("../common/header.ejs") %> 
+	<main>
+		<div id="signup">
+			<h1>회원가입</h1>
+			<form action="/account/signup" method="post" class="signupForm">
+				<div>
+					<label>아이디</label>
+					<input type="text" name="id" class="id" placeholder="아이디를 입력하세요" onchange="idCheck(event);">
+					<p class="errorMsg idErr"><%= msg %> </p>
+				</div>
+				<div>
+					<label>비밀번호</label>
+					<input type="password" name="password" class="pass" placeholder="비밀번호를 입력하세요" onchange="test();">
+				</div>
+				<div>
+					<label>비밀번호 확인</label>
+					<input type="password" class="passChk" placeholder="비밀번호를 한 번 더 입력하세요" onchange="test();">
+					<p class="errorMsg passMsg"></p>
+				</div>
+				<div>
+					<label>이름</label>
+					<input type="text" name="name" placeholder="이름을 입력하세요">
+				</div>
+				<div>
+					<label>이메일</label>
+					<input type="email" name="email" placeholder="이메일을 입력하세요">
+				</div>
+				<div>
+					<label>연락처</label>
+					<input type="tel" name="contact" placeholder="01012345678">
+				</div>
+				<div>
+					<label>생년월일</label>
+					<input type="text" name="birth" placeholder="날짜를 선택하세요" onfocus="(this.type = 'date')" >
+				</div>
+				<button type="submit" class="submitBtn">회원가입</button>
+			</form>
+		</div>
+	</main>
+	<script src="/js/account/signup.js"></script>
+</body>
+</html>

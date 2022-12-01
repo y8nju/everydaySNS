@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="icon" type="image/svg" href="/images/favicon.svg"/>
+	<link rel="stylesheet" href="/css/common/normalize.css">
+	<link rel="stylesheet" href="/css/common/default.css">
+	<link rel="stylesheet" href="/css/article/article.css">
+	<link rel="stylesheet" href="/css/common/header.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+	<%- include("../common/header.ejs") %> 
+	<main>
+		<div id="modify">
+			<article class="postcontainer card col">
+				<h3>수정하기</h3>
+				<div class="writerInfo row">
+					<img src="<%= found.writerImage %>" alt="<%= found.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+					<div>
+						<p class="writerId">
+							<span>@<%= found.writerId %></span>
+							<% if(found.type == 'private') {%> 
+								<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
+							<% } %> 
+						</p>
+						<% if(found.type == 'private') {%> 
+							<label class="row">
+								<input type="checkbox" name="type" value="private" class="privatChk" checked><span>비공개</span>
+							</label>
+						<% } else { %>
+							<label class="row">
+								<input type="checkbox" name="type" value="private" class="privatChk"><span>비공개</span>
+							</label>
+						<% } %> 
+					</div>
+				</div>
+				<div class="content">
+					<form action="/article/modify" method="post" enctype="multipart/form-data" class="col writeForm" name="updatePostForm">
+						<input type="hidden" name="id" value="<%= found._id.toString() %>">
+						<textarea name="message" onfocus="this.value = this.value;" autofocus><%= found.post %></textarea>
+						<%if(found.attachs[0]) { %>
+								<div class="imageContainer">
+									<div style="padding-bottom: 200px;"></div>
+									<div class="imageWrap row">
+										<% found.attachs.forEach(elm => { %> 
+											<div class="img" style="background-image: url('<%= elm %>');">
+												<input type="hidden" name="imgFIle" value="<%= elm %>">
+											<img src="<%= elm %>" alt=""></div>
+										<% }) %> 
+									</div>
+									<div class="previewWrap"></div>
+								</div>
+							<%}%>
+							<label for="attaches" class="row fileModify">
+								<span class="btn fileBtn" type="button"><i class="fi fi-rr-picture"></i> 파일 변경하기</span>
+								<!-- 인풋 히든으로 기본 값 정보 받아와야할려나, 파일 변경하게 되면 기본 값 리셋시키고..... 🤦🏻‍♀️ -->
+								<input type="file" name="attaches" id="attaches" accept="image/*" onchange="preview(event)" multiple>
+							</label>
+							<div>
+								<button class="modifyBtn">
+									저장하기
+								</button>
+							</div>
+					</form>
+				</div>
+			</article>
+		</div>
+	</main>
+	<script>
+		userInfoLink();
+		function userInfoLink() {
+			let userInfoLink = document.querySelector('.headerRight');
+			let html = `
+				<div class="userInfoLink row" onclick="location.href='/user'">
+					<div>
+						<p class="userId">@<%= user.id %></p>
+					</div>
+					<img src="<%=user.image %>" alt="user profile image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+					</div>`
+			userInfoLink.innerHTML = html;
+		}
+		// textarea focus
+		let message = document.updatePostForm.message;
+		var len = message.value.length;
+		message.value = document.updatePostForm.message.value; 
+		message.focus();
+		message.setSelectionRange(len, len);
+
+		function preview(evt) {
+			let imageContainer = document.querySelector('.imageContainer');
+			if(!imageContainer) {
+				let html = `
+					<div class="imageContainer">
+						<div style="padding-bottom: 200px;"></div>
+						<div class="previewWrap"></div>
+					</div>
+				`
+				document.querySelector('.fileModify').insertAdjacentHTML(
+					'beforebegin', html
+				);
+			}else {
+				document.querySelector('.imageWrap').style.display = 'none';
+			}
+			document.querySelector(".previewWrap").innerHTML ="";
+			if (evt.target.files) {
+				for (let i = 0; i < evt.target.files.length; i++) {
+					let reader = new FileReader();
+					reader.readAsDataURL(evt.target.files[i]);
+					reader.onload = function(rst){
+						const div = document.createElement('div');
+						const img = document.createElement("img");
+						img.src = rst.target.result;
+						document.querySelector(".previewWrap").appendChild(div).appendChild(img);
+						div.setAttribute('style', 'background-image:url(' + rst.target.result + ')');
+					}
+				}
+			}
+		}
+	</script>
+</body>
+</html>

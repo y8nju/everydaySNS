@@ -1,0 +1,65 @@
+#myinfo {
+	width: 700px;
+}
+.profileSection {
+	width: 92%;
+	align-items: center;
+	margin: 0 auto 1rem;
+}
+.profileSection form {
+	width: fit-content;
+	margin-right: 1rem;
+}
+.profileSection .userProfileImg {
+	width: 10rem;
+	height: 10rem;
+	display: block;
+	border: var(--border);
+	object-fit: cover;
+	margin-right: 0;
+}
+.profileSection  input#profile {
+	width: 1px;
+	height: 1px;
+	border: transparent;
+}
+.profileSection  input#profile::file-selector-button {
+	display: none;
+}
+.profileSection .updateBtn {
+	font-size: .9rem;
+	border: var(--border);
+	border-radius: 0.2rem;
+	color: var(--gray777);
+	margin: 0 auto;
+	padding: .2rem .6rem;
+	display: none;
+}
+.infoContainer .userInfo {
+	align-items: center;
+	line-height: 1;
+	color: var(--gray777);
+	margin-bottom: 1rem;
+}
+.infoContainer .userId {
+	margin: -.5rem .4rem 0 0;
+}
+.infoContainer button {
+	font-size: .8rem;
+	line-height: 1.3rem;
+	letter-spacing: -1px;
+	border: var(--border);
+	border-radius: 1rem;
+	color: var(--gray777);
+	background-color: #fff;
+	margin-left: auto;
+	padding: 0.2rem 0.6rem;
+	transition: all .3s;
+}
+.infoContainer button:hover {
+	background-color: var(--bgLight);
+}
+.postInfo {
+text-align: center;
+font-size: .8rem;
+}

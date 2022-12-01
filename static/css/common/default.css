@@ -1,0 +1,90 @@
+@font-face {
+	font-family: 'EarlyFontDiary';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_220508@1.0/EarlyFontDiary.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+:root {
+	--gray: #bdbcbc;
+	--gray999: #999;
+	--gray777: #777;
+	--errorColor: #f96464;
+	--ongolingColor: #08c38f;
+	--successColor: #007aff;
+	--bg: #ededed;
+	--bgLight: #f9f9f9;
+
+	--headerHeight: 80px;
+
+	--border: 1px solid #ddd;
+}
+
+* {
+	box-sizing: border-box;
+}
+body {
+	font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+	color: #333;
+	overflow-x: hidden;
+	padding-top: var(--headerHeight);
+}
+a:link, a:visited, a:active {
+	color: #333;
+	text-decoration: none;
+}
+h1 {
+	margin-bottom: 1.8rem;
+}
+p {
+	margin: 0;
+}
+i {
+	vertical-align: middle;
+}
+main {
+	width: 100vw;
+	height: auto;
+	display: flex;
+	justify-content: center;
+	margin-top: 2rem;
+}
+input, textarea, select {
+	border: var(--border);
+	border-radius: .5rem;
+	color: #333;
+}
+input::placeholder, textarea::placeholder, select::placeholder {
+	color: var(--gray999);
+}
+input:focus, textarea:focus, select:focus {
+	outline-color: var(--gray999);
+}
+textarea {
+	resize: none;
+}
+button, .btn {
+	cursor: pointer;
+	display: block;
+	text-align: center;
+	line-height: 1;
+}
+.row {
+	display: flex;
+}
+.col {
+	display: flex;
+	flex-direction: column;
+}
+.errorMsg {
+	font-size: .8rem;
+	line-height: 1;
+	color: var(--errorColor);
+}
+.userProfileImg {
+	border-radius: 50%;
+}
+.grow1 {
+	flex-grow: 1;
+}

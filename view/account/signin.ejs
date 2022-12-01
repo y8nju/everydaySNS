@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>로그인 | #일상</title>
+	<link rel="icon" type="image/svg" href="/images/favicon.svg"/>
+	<link rel="stylesheet" href="/css/common/normalize.css">
+	<link rel="stylesheet" href="/css/common/default.css">
+	<link rel="stylesheet" href="/css/common/header.css">
+	<link rel="stylesheet" href="/css/account/account.css">
+</head>
+
+<body>
+	<%- include("../common/header.ejs") %> 
+	<main>
+		<div id="signin">
+			<h1>로그인</h1>
+			<form action="/account/signin" method="post" class="signForm">
+				<div>
+					<input type="text" name="id" placeholder="아이디">
+				</div>
+				<div>
+					<input type="password" name="password" placeholder="비밀번호">
+				</div>
+				<div>
+					<p class="errorMsg"><%= msg %></p>
+				</div>
+				<button type="submit" class="">로그인</button>
+			</form>
+			<section class="signupLink">
+				<span>처음이신가요?</span>&emsp;<a href="/account/signup">회원가입</a>
+			</section>
+		</div>
+	</main>
+
+</body>
+
+</html>

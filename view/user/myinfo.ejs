@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>마이페이지 | #일상</title>
+	<link rel="icon" type="image/svg" href="/images/favicon.svg"/>
+	<link rel="stylesheet" href="/css/common/normalize.css">
+	<link rel="stylesheet" href="/css/common/default.css">
+	<link rel="stylesheet" href="/css/common/header.css">
+	<link rel="stylesheet" href="/css/user/user.css">
+	<link rel="stylesheet" href="/css/article/article.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<body>
+	<%- include("../common/header.ejs") %> 
+	<main>
+		<div id="myinfo">
+			<section class="profileSection row">
+				<form action="/user/myinfo" method="post" enctype="multipart/form-data">
+					<label for="profile" style="cursor: pointer;">
+						<img src="<%=user.image ?? '/images/user/userProfile.png' %>" alt="user profile image" class="userProfileImg">
+						<span class="newFileName"></span>
+						<input type="file" name="profile" id="profile" accept="image/*" onchange="preview(event)">
+					</label>
+					<button class="btn updateBtn">변경하기</button>
+				</form>
+				<div class="infoContainer grow1">
+					<div class="userInfo row">
+						<h2 class="userId">@<%= user.id %></h2>
+						<span class="userName"><%= user.name %></span>
+						<button type="button"><i class="fi fi-rr-pencil"></i> <span>프로필 편집</span></button>
+					</div>
+					<div class="postInfo">
+						<span>게시글 <span><%= postList.length %></span></span>
+					</div>
+				</div>
+			</section>
+			<section class="postListSection">
+				<% postList.forEach(data => {%> 
+					<article class="postcontainer card col" onclick="location.href='/article/view?articleId=<%= data._id.toString() %>'">
+						<div class="writerInfo row">
+							<img src="<%= data.writerImage %>" alt="<%= data.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+							<div>
+								<p class="writerId">
+									<span>@<%= data.writerId %></span>
+									<% if(data.type == 'private') {%> 
+										<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
+									<% } %> 
+								</p>
+								<p class="createAt"><span><%= data.createAt.toLocaleString() %></span></p>
+							</div>
+						</div>
+						<div class="content">
+							<div class="message"><%= data.post %></div>
+							<%if(data.attachs[0]) { %>
+								<div class="imageContainer">
+									<div style="padding-bottom: 200px;"></div>
+									<div class="imageWrap row">
+										<% data.attachs.forEach(elm => { %> 
+											<div class="img" style="background-image: url('<%= elm %>');">
+											<img src="<%= elm %>" alt=""></div>
+										<% }) %> 
+									</div>
+								</div>
+							<%}%>
+						</div>
+						<div class="commentWrap">
+							<div class="responseArea">
+								<div>
+									<span>댓글</span> <span><%= data.comments.length %></span>
+								</div>
+							</div>
+						</div>
+					</article>
+				<% }) %>
+			</section>
+		</div>
+	</main>
+	<script src="/js/user/myinfo.js"></script>
+</body>
+</html>
