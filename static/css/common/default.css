@@ -88,3 +88,21 @@ button, .btn {
 .grow1 {
 	flex-grow: 1;
 }
+@media (max-width: 575px) { 
+	:root {
+		--headerHeight: 60px;
+	}
+	body {
+		font-size: 14px;
+	}
+	main {
+		margin-top: 1rem;
+		min-height: calc(100vh - var(--headerHeight) - 1rem);
+	}
+	input, textarea, select {
+		font-size: 12px;
+	}
+	input::placeholder, textarea::placeholder, select::placeholder {
+		font-size: 12px;
+	}
+}

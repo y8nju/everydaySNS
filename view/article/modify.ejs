@@ -19,10 +19,10 @@
 			<article class="postcontainer card col">
 				<h3>수정하기</h3>
 				<div class="writerInfo row">
-					<img src="<%= found.writerImage %>" alt="<%= found.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+					<img src="<%= found.writerInfo.image %>" alt="<%= found.writerInfo.id %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
 					<div>
 						<p class="writerId">
-							<span>@<%= found.writerId %></span>
+							<span>@<%= found.writerInfo.id %></span>
 							<% if(found.type == 'private') {%> 
 								<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
 							<% } %> 

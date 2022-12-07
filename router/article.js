@@ -20,7 +20,6 @@ router.route('/')
 
 router.get('/home', async (req, res) => {
 	let postList = await articles.findAll();
-	console.log('postList', postList);
 	postList = postList ?? [];
 	postList = postList.filter(elm => {
 		return elm.type === 'public' || elm.writerInfo.id == req.session.authUser.id
@@ -70,16 +69,14 @@ router.post('/upload', upload.array('attaches'), async (req, res) => {
 router.get('/view', async (req, res) => {
 	const user = req.session.authUser;
 	let found = await articles.aggregateData(req.query.articleId);
-	res.render('article/view', {user, found})
-	console.log('found', found);
+	res.render('article/view', {user, found});
 })
 
 router.route('/modify')
 	.get(async(req, res) => {
 		const user = req.session.authUser;
-		let found = await articles.findById(req.query.articleId);
+		let found = await articles.aggregateData(req.query.articleId);
 		res.render('article/modify', {user, found});
-		console.table(found)
 	})
 	.post(upload.array('attaches'), async (req, res) => {
 		const attachs = [];
@@ -117,14 +114,13 @@ router.route('/modify')
 			attachs: attachs,
 		}
 		await articles.modifyPost(req.body.id, arr);
-		let found = await articles.findById(req.body.id);
+		let found = await articles.aggregateData(req.body.id);
 		const user = req.session.authUser;
 		res.render('article/view', {user, found})
 	})
 
 router.get('/delete', async (req, res) => {
 	let found = await articles.findById(req.query.articleId);
-	console.log(found)
 	if(Array.isArray(found.attachs)) {
 		let imgList = found.attachs.map(one => path.join(__dirname, '..', 'static', one) )
 		for(let img of imgList) {

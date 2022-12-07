@@ -12,7 +12,6 @@ module.exports.add = async function(article) {
 }
 
 module.exports.findAll = async function() {
-	const all = await connect().find({}).sort('createAt', -1).toArray(); 
 	const found = await connect().aggregate([
 		{$lookup: {
 			from: 'accounts',
@@ -23,7 +22,7 @@ module.exports.findAll = async function() {
 		{$unwind: "$writerInfo"},
 		{$sort: {createAt: -1}}
 	]).toArray();
-	return found
+	return found;
 }
 module.exports.getVisibleSome = async function(userId) {
 	const query = {"$or" : [{writerId : userId },  {  type : "public" } ] };
@@ -31,7 +30,19 @@ module.exports.getVisibleSome = async function(userId) {
 }
 
 module.exports.getByWriter = async function(writerId) {
-	return await connect().find({writerId : writerId }).sort("createAt", -1).toArray();
+	// return await connect().find({writerId : writerId }).sort("createAt", -1).toArray();
+	const found = await connect().aggregate([
+		{$match:  {writerdata : new mongodb.ObjectId(writerId)}},
+		{$lookup: {
+			from: 'accounts',
+			localField: "writerdata",
+			foreignField: "_id",
+			as: 'writerInfo'
+		}},
+		{$unwind: "$writerInfo"},
+		{$sort: {createAt: -1}}
+	]).toArray();
+	return found;
 }
 module.exports.findById = async function(target) {
 	return await connect().findOne({_id : new mongodb.ObjectId(target)});
@@ -43,7 +54,7 @@ module.exports.addComment = async function(targetId, comment) {
 	);
 }
 module.exports.aggregateData = async function(target) {
-	return await connect().aggregate([
+	const found = await connect().aggregate([
 		{$match:  {_id : new mongodb.ObjectId(target)}},
 		{$lookup: {
 			from: 'accounts',
@@ -53,6 +64,7 @@ module.exports.aggregateData = async function(target) {
 		}},
 		{$unwind: "$writerInfo"},
 	]).next();
+	return found;
 }
 
 module.exports.deletePost = async function(id) {

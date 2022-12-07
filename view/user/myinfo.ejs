@@ -42,10 +42,10 @@
 				<% postList.forEach(data => {%> 
 					<article class="postcontainer card col" onclick="location.href='/article/view?articleId=<%= data._id.toString() %>'">
 						<div class="writerInfo row">
-							<img src="<%= data.writerImage %>" alt="<%= data.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+							<img src="<%= data.writerInfo.image %>" alt="<%= data.writerInfo.id %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
 							<div>
 								<p class="writerId">
-									<span>@<%= data.writerId %></span>
+									<span>@<%= data.writerInfo.id %></span>
 									<% if(data.type == 'private') {%> 
 										<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
 									<% } %> 

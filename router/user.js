@@ -37,7 +37,7 @@ router.route('/')
 router.route('/myinfo')
 	.get (async (req, res) => {
 		let user = req.session.authUser;
-		let postList = await articles.getByWriter(user.id);
+		let postList = await articles.getByWriter(user._id);
 		res.render('user/myinfo', {user, postList});
 	})
 	.post(profileUpload.single('profile'), async (req, res) => {

@@ -63,3 +63,28 @@
 text-align: center;
 font-size: .8rem;
 }
+@media (max-width: 575px) {
+	#myinfo {
+		width: 100vw;
+	}
+	.profileSection {
+		width: 100%;
+		padding: 0 16px;
+		margin-bottom: .6rem;
+	}
+	.profileSection .userProfileImg {
+		width: 7rem;
+		height: 7rem;
+	}
+	.infoContainer .userId {
+		font-size: 1.2rem;
+	}
+	.infoContainer button span {
+		position: absolute; 
+		top :auto;
+		left: -10000px; 
+		width: 1px; 
+		height: 1px; 
+		overflow: hidden;
+	}
+}

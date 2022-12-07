@@ -64,3 +64,38 @@ button:active {
 	margin: 2rem auto;
 	padding: 0.9rem 1.4rem;
 }
+
+@media (max-width: 575px) {
+	h1 {
+		font-size: 1.6rem;
+	}
+	input {
+		font-size: .8rem;
+		padding: .6rem;
+	}
+	button {
+		padding: .8rem
+	}
+	#signin, #signup {
+		max-width: calc(100vw - 32px);
+		width: 88vw;
+		height: max-content;
+		align-self: center;
+		margin-top: -5vh;
+	}
+	#signin {
+		margin-top: -20vh;
+	}
+	#signin .signForm > div, 
+	#signup .signupForm > div {
+		margin: .8rem 0;
+		font-size: .8rem;
+
+	}
+	.signupLink {
+		font-size: .8rem;
+	}
+	.signupLink a {
+		font-size: .9rem;
+	}
+}
