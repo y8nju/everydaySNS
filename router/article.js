@@ -4,7 +4,8 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path')
 
-const articles = require('../collections/articles')
+const articles = require('../collections/articles');
+const { ObjectId } = require('mongodb');
 
 router.use((req, res, next) => {
 	if(!req.session.authUser) {
@@ -19,11 +20,11 @@ router.route('/')
 
 router.get('/home', async (req, res) => {
 	let postList = await articles.findAll();
+	console.log('postList', postList);
 	postList = postList ?? [];
 	postList = postList.filter(elm => {
-		return elm.type === 'public' || elm.writerId == req.session.authUser.id
+		return elm.type === 'public' || elm.writerInfo.id == req.session.authUser.id
 	})
-	// let postList = await articles.getVisibleSome(req.session.authUser.id);
 	res.render('home', {user: req.session.authUser, postList});
 });
 
@@ -55,6 +56,7 @@ router.post('/upload', upload.array('attaches'), async (req, res) => {
 			writerId: user.id,
 			writerName: user.name,
 			writerImage: user.image,
+			writerdata: new ObjectId(user._id),
 			post: req.body.message,
 			type: req.body.type ?? 'public',
 			createAt: new Date(),
@@ -67,8 +69,9 @@ router.post('/upload', upload.array('attaches'), async (req, res) => {
 
 router.get('/view', async (req, res) => {
 	const user = req.session.authUser;
-	let found = await articles.findById(req.query.articleId);
+	let found = await articles.aggregateData(req.query.articleId);
 	res.render('article/view', {user, found})
+	console.log('found', found);
 })
 
 router.route('/modify')

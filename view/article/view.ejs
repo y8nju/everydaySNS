@@ -20,17 +20,17 @@
 			<div>
 				<article class="postcontainer card col">
 					<div class="writerInfo row">
-						<img src="<%= found.writerImage %>" alt="<%= found.writerId %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
+						<img src="<%= found.writerInfo.image %>" alt="<%= found.writerInfo.id %> image" class="userProfileImg" onerror="this.src='/images/user/userProfile.png'">
 						<div>
 							<p class="writerId">
-								<span>@<%= found.writerId %></span>
+								<span>@<%= found.writerInfo.id %></span>
 								<% if(found.type == 'private') {%> 
 									<span class="isPraivate"><i class="fi fi-rr-eye-crossed"></i></span>
 								<% } %> 
 							</p>
 							<p class="createAt"><span><%= found.createAt.toLocaleString() %></span></p>
 						</div>
-						<% if(found.writerId == user.id) {%> 
+						<% if(found.writerInfo.id == user.id) {%> 
 							<div class="more">
 								<button type="button" onclick="moreContent(this)" class="moreBtn"><i class="fi fi-rr-menu-dots"></i></button>
 								<div class="moreContent col">

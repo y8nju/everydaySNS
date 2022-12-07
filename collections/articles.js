@@ -12,7 +12,18 @@ module.exports.add = async function(article) {
 }
 
 module.exports.findAll = async function() {
-	return await connect().find({}).sort('createAt', -1).toArray(); 
+	const all = await connect().find({}).sort('createAt', -1).toArray(); 
+	const found = await connect().aggregate([
+		{$lookup: {
+			from: 'accounts',
+			localField: "writerdata",
+			foreignField: "_id",
+			as: 'writerInfo'
+		}},
+		{$unwind: "$writerInfo"},
+		{$sort: {createAt: -1}}
+	]).toArray();
+	return found
 }
 module.exports.getVisibleSome = async function(userId) {
 	const query = {"$or" : [{writerId : userId },  {  type : "public" } ] };
@@ -30,6 +41,18 @@ module.exports.addComment = async function(targetId, comment) {
 		{_id : new mongodb.ObjectId(targetId)},
 		{$push: {comments: comment}}
 	);
+}
+module.exports.aggregateData = async function(target) {
+	return await connect().aggregate([
+		{$match:  {_id : new mongodb.ObjectId(target)}},
+		{$lookup: {
+			from: 'accounts',
+			localField: "writerdata",
+			foreignField: "_id",
+			as: 'writerInfo'
+		}},
+		{$unwind: "$writerInfo"},
+	]).next();
 }
 
 module.exports.deletePost = async function(id) {
