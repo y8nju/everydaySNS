@@ -20,7 +20,7 @@ router.route('/')
 
 router.get('/home', async (req, res) => {
 	let postList = await articles.findAll();
-	postList = postList ?? [];
+	postList = postList ? postList : [];
 	postList = postList.filter(elm => {
 		return elm.type === 'public' || elm.writerInfo.id == req.session.authUser.id
 	})
@@ -57,7 +57,7 @@ router.post('/upload', upload.array('attaches'), async (req, res) => {
 			writerImage: user.image,
 			writerdata: new ObjectId(user._id),
 			post: req.body.message,
-			type: req.body.type ?? 'public',
+			type: req.body.type ? req.body.type : 'public',
 			createAt: new Date(),
 			attachs: attachs,
 			comments: []
@@ -110,7 +110,7 @@ router.route('/modify')
 		let arr = {
 			_id: req.body.id,
 			message: req.body.message,
-			type: req.body.type ?? 'public',
+			type: req.body.type ? req.body.type : 'public',
 			attachs: attachs,
 		}
 		await articles.modifyPost(req.body.id, arr);

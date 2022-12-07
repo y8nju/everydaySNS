@@ -21,7 +21,7 @@
 			<section class="profileSection row">
 				<form action="/user/myinfo" method="post" enctype="multipart/form-data">
 					<label for="profile" style="cursor: pointer;">
-						<img src="<%=user.image ?? '/images/user/userProfile.png' %>" alt="user profile image" class="userProfileImg">
+						<img src="<%= user.image ? user.image : '/images/user/userProfile.png' %>" alt="user profile image" class="userProfileImg">
 						<span class="newFileName"></span>
 						<input type="file" name="profile" id="profile" accept="image/*" onchange="preview(event)">
 					</label>
